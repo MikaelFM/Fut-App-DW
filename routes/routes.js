@@ -23,6 +23,7 @@ router.get('/payment', paymentsController.getAll);
 router.get('/payment/:id', paymentsController.getById);
 router.post('/payment', paymentsController.create);
 router.delete('/payment/:id', paymentsController.delete);
+router.post('/payment/webhook', paymentsController.processPayment);
 
 
 

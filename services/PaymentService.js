@@ -57,6 +57,10 @@ class PaymentService {
     async delete(paymentId) {
         return await payment.cancel({id: paymentId});
     }
+
+    async aprovePayment(paymentId) {
+        return await Cobranca.deleteOne({ id_cobranca: paymentId });
+    }
 }
 
 export default new PaymentService();

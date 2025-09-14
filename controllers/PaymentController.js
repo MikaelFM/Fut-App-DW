@@ -36,6 +36,25 @@ class paymentController {
             res.status(400).send(error);
         }
     }
+
+    processPayment = async (req, res) => {
+        try {
+            const json = req.body;
+
+            if(json?.action === 'payment.updated'){
+                const payment = await PaymentService.getById(json.data.id);
+
+                if(payment.status === 'approved'){
+                    await PaymentService.aprovePayment(json.data.id);
+                    return res.status(200).send({ msg: 'success' });
+                }
+            }
+
+            return res.status(401).send({ msg: 'pagamento não processado' });
+        } catch (error){
+            res.status(400).send(error);
+        }
+    }
 }
 
 export default new paymentController();
