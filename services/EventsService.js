@@ -1,4 +1,4 @@
-import BaseService from "./baseService.js";
+import BaseService from "./BaseService.js";
 import { Eventos } from "../models/EventsModel.js";
 
 class EventsService extends BaseService {

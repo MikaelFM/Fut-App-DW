@@ -1,4 +1,4 @@
-import BaseService from "./baseService.js";
+import BaseService from "./BaseService.js";
 import { Usuarios } from "../models/UsersModel.js";
 
 class UserService extends BaseService {
