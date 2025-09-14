@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap');
+
+:root {
+    --bg: #0c0c0c;
+    --color: #38B6FF;
+    --contrast-color: white;
+    --divs-color: #171919;
+}
+body {
+    background-color: var(--bg);
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat';
+}
+#tudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.accordion {
+    width: 90vw;
+    --bs-accordion-bg: var(--divs-color);
+    --bs-accordion-active-color: black;
+    border-radius: 20px;
+    margin-bottom: 2vw;
+}
+.accordion-button:focus {
+    z-index: 3;
+    border-color: var(--color);
+}
+.accordion-collapse {
+    background-color: var(--color);
+}
+.accordion-button:not(.collapsed) {
+    background-color: var(--color);
+}
+.accordion-button:not(.collapsed) input {
+    color: black;
+}
+button input, button input::after, button input:focus {
+    color: var(--color)
+}
+input, input::after, input:focus {
+    border: none;
+    background-color: transparent;
+    font-family: 'Montserrat';
+    font-size: 4vw;
+    font-weight: 3  00;
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+    color: black
+}
+table {
+    background-color: var(--color);
+    width: 100%;
+    padding: 2vw 5vw;
+    font-size: 3.5vw;
+    display: inline-block;
+    overflow: auto;
+}
+table::-webkit-scrollbar { 
+    display: none;
+  }
+table tr {
+    height: 15vw;
+}
+table tr td {
+    margin: 0 2vw;
+}
+table .data, table .label {
+    font-weight: 700;
+    width: 80vw;
+}
+table .totalize {
+    font-size: 4vw;
+}
+table .valor {
+    text-align: left;
+    width: 27vw;
+}
+table .icon {
+    text-align: right;
+}
+.dividaInput {
+    color: black;
+    width: 70%;
+    margin-left: 5%;
+    text-align: left;
+}
+.totalizeInput {
+    color: black;
+    width: 65%;
+    margin-left: 5%;
+}
+.fa-xmark {
+    font-size: 6vw;
+}
+h1 {
+    margin: 6vw 0;
+    color: white;
+    font-size: 10vw;
+    font-weight: 800;
+}
+.button {
+    border: none;
+    border-radius: 20px;
+    font-size: 4vw;
+    font-weight: 600;
+    display: flex;
+    color: white;
+    background: var(--divs-color);
+    margin: 5vw auto 5vw auto;
+    padding: 1.5vw 0;
+    width: 75%;
+    height: 7.5vh;
+    align-items: center;
+    justify-content: center;
+}

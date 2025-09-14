@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/history.css">
+    <link rel="stylesheet" href="css/money.css">
+    <title>App Fut - Fixo</title>
+</head>
+<body>
+<div id="tudo">
+    <div id="items-wrapper">
+        <div id="items">
+
+            <!-- TAB INDEX -->
+            <div id="tabIndex" class="item">
+                <div id="head">
+                    <div id="div-bars">
+                        <i class="fa-solid fa-bars" onclick="alert('Menu não funcional')"></i>
+                    </div>
+                    <p>Olá, Mikael!</p>
+                </div>
+                <div id="p-event">
+                    <p id="text-event">Eventos</p>
+                    <p id="num-event">2</p>
+                </div>
+                <div id="eventos">
+                    <div class="container">
+                        <h1>Futebol de Quinta</h1>
+                        <div class="data">
+                            <p class="dia">12</p>
+                            <p class="mes">Set</p>
+                        </div>
+                        <form class="admActions" action="/list" method="post" id="1">
+                            <input type="hidden" name="dados" value='{"id":1,"nome":"Futebol de Quinta"}'>
+                            <p>
+                                <i class="fa-regular fa-square-check"></i>
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </p>
+                        </form>
+                        <ul class="dados">
+                            <li class="local">
+                                <span class="fa-solid fa-location-dot icon-local icon-dados"></span>
+                                <span>Quadra Central</span>
+                            </li>
+                            <li class="hora">
+                                <span class="fa-regular fa-clock icon-hora icon-dados"></span>
+                                <span>19:00</span>
+                            </li>
+                        </ul>
+                        <div class="qtd">
+                            <p class="num">5 confirmados</p>
+                            <p class="pessoas">João, Maria, Pedro, Ana, Lucas</p>
+                        </div>
+                        <div class="button-confirma">
+                            <p>PRESENÇA CONFIRMADA!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HISTÓRICO DE JOGOS -->
+            <div id="history" class="item">
+                <p id="title">Histórico de Jogos</p>
+                <div class="jogo closed">
+                    <p class="data-jogo">01/09/2025</p>
+                    <div class="result">
+                        <p class="p-timea">Time A</p>
+                        <p class="placar">3 x 2</p>
+                        <p class="p-timeb">Time B</p>
+                    </div>
+                    <div class="times">
+                        <div class="time1">
+                            <ul>
+                                <li>João</li>
+                                <li>Maria</li>
+                                <li>Pedro</li>
+                            </ul>
+                        </div>
+                        <div class="time2">
+                            <ul>
+                                <li>Ana</li>
+                                <li>Lucas</li>
+                                <li>Carla</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD -->
+            <div id="dashboard" class="item">
+                <p id="title">Suas estatísticas</p>
+                <div id="dados">
+                    <div class="dash-item linha1">
+                        <ul class="info">
+                            <li class="label">Jogos</li>
+                            <li class="value">10</li>
+                        </ul>
+                        <ul class="info">
+                            <li class="label">Vitórias</li>
+                            <li class="value" style="color: #3ECDA6">6</li>
+                        </ul>
+                        <ul class="info">
+                            <li class="label">Empates</li>
+                            <li class="value" style="color: #FFBD59">2</li>
+                        </ul>
+                        <ul class="info">
+                            <li class="label">Derrotas</li>
+                            <li class="value" style="color: #FF3131">2</li>
+                        </ul>
+                    </div>
+                    <div class="dash-item e2-1 addDado" data-tipo="gol">
+                        <ul class="info">
+                            <li class="label">Gols</li>
+                            <li class="value">15</li>
+                        </ul>
+                    </div>
+                    <div class="dash-item e2-2 addDado" data-tipo="assist">
+                        <ul class="info">
+                            <li class="label">Assists</li>
+                            <li class="value">7</li>
+                        </ul>
+                    </div>
+                    <div class="dash-item e2-3">
+                        <ul class="info">
+                            <li class="label">% de Vitórias</li>
+                            <li class="value">60%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB MONEY -->
+            <div id="tabMoney" class="item">
+                <div id="dividas">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                    <p class="valor">150,00</p>
+                    <p class="legenda">Dívidas</p>
+                </div>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td class="data">01/09/2025</td>
+                        <td class="valor">R$ 100,00</td>
+                    </tr>
+                    <tr>
+                        <td class="data">05/09/2025</td>
+                        <td class="valor">R$ 50,00</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="button-pagamento">
+                    <p>PAGAR</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MENU -->
+    <div id="menu">
+        <i class="fa-solid fa-house selected"></i>
+        <i class="fa-solid fa-clock"></i>
+        <div class="addFut" onclick="window.location.href = '/event/new'">+</div>
+        <i class="fa-solid fa-square-poll-vertical"></i>
+        <i class="fa-solid fa-wallet"></i>
+    </div>
+
+</div>
+</body>
+</html>

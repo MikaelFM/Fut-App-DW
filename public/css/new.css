@@ -1,0 +1,9 @@
+.form {
+    margin-top: 0;
+}
+form input {
+    margin-top: 4vw;
+}
+form input, form input[type="submit"] {
+    margin-top: 6vw;
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <form method="post" action="/user/save">
+        <div class="input-group">
+            <label for="username">Nome</label>
+            <input type="text" name="username" id="username">
+        </div>
+        <div class="input-group">
+            <% if (typeof error !== "undefined") { %>
+                <p style="color:red;"><%= error %></p>
+            <% } %>
+        </div>
+        <div class="input-group">
+            <input type="submit" value="Confirmar">
+        </div>
+    </form>
+</body>
+</html>

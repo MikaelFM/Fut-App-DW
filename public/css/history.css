@@ -1,0 +1,82 @@
+#history {
+  height: 75vh;
+  margin-top: 5vh;
+  width: 85vw;
+  padding: 0 7.5vw 0 7.5vw;
+  overflow-y: scroll;
+}
+#history::-webkit-scrollbar {
+  display: none;
+}
+
+.jogo {
+  background-color: var(--divs-color);
+  padding: 3vw 5vw 3vw 5vw;
+  border-radius: 30px;
+  margin-bottom: 2vh;
+}
+.jogo ul li {
+  list-style: none;
+}
+.jogo .data-jogo {
+  color: #CFCFCF;
+  font-size: 3.5vw;
+  margin-bottom: 0;
+}
+.jogo .result {
+  margin-top: 1vh;
+  margin-bottom: 0;
+  font-size: 6.5vw;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  color: var(--color);
+}
+.jogo .result .placar {
+  color: white;
+}
+.jogo .result p {
+  margin: 0;
+}
+.jogo .times {
+  margin-top: 1.5vh;
+  margin-bottom: 2vh;
+  display: flex;
+  color: white;
+}
+.jogo .times .time1 {
+  text-align: left;
+}
+.jogo .times .time2 {
+  text-align: right;
+}
+.jogo .times .time1, .jogo .times .time2 {
+  width: 50%;
+}
+.jogo .times .time1 ul, .jogo .times .time2 ul {
+  margin: 0;
+  padding: 0;
+  font-size: 3.7vw;
+}
+
+.closed {
+  border-radius: 20px;
+}
+.closed .data-jogo {
+  margin-top: 1vh;
+}
+.closed .resultado {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+.closed .times {
+  display: none;
+}
+
+#title {
+  font-weight: 500;
+  margin-left: 3vw;
+  margin-top: 22vw;
+  font-size: 6vw;
+  color: var(--color);
+}/*# sourceMappingURL=history.css.map */

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styleHome.css' ) }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/criador.css' ) }}">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <title>App Fut</title>
+</head>
+
+<body>
+    <div id="tudo">
+        <p class="result">Time A <span class="placar"><input type="number" name="time_a" id="tiem_a" class="input-placar" v-model="gols_time_a"> x <input type="number" name="time_a" id="tiem_a" class="input-placar" v-model="gols_time_b"></span> Time B</p>
+        <div class="times">
+            <div class="time_a" @click="selecionaA()"  :class="{ 'selected' : (time_selecionado == 'A')}">
+                <p class="name">Time A</p>
+                <ul class="jogadores">
+                    <li v-for="(jogador, index) in time_a" @click="removerJogador(index, 'A')">[[jogador.nome]]</li>
+                </ul>
+            </div>
+            <div class="time_b" @click="selecionaB()" :class="{ 'selected' : (time_selecionado == 'B')}">
+                <p class="name">Time B</p>
+                <ul class="jogadores">
+                    <li v-for="(jogador, index) in time_b" @click="removerJogador(index, 'B')">[[jogador.nome]]</li>
+                </ul>
+            </div>
+        </div>
+    <div class="nomes">
+        <div v-for="(jogador, index) in usuarios" @click="adicionarJogador(index)">
+            <p>[[jogador.nome]]</p>
+        </div>
+    </div>
+    <div class="button-confirma" @click="submit()">
+        <p>CONFIRMAR</p>
+    </div>
+    </div>
+    <script>
+        let jogadores = {{data|tojson}};
+        const App = new Vue({
+            el: '#tudo',
+            delimiters: ['[[', ']]'],
+            data: {
+                usuarios: jogadores,
+                time_a: [],
+                time_b: [],
+                gols_time_a: 0,
+                gols_time_b: 0,
+                time_selecionado: ''
+            },
+            methods: {
+                adicionarJogador: function(index){
+                    if(this.time_selecionado == 'A'){
+                        this.time_a.push(this.usuarios[index])
+                        this.usuarios.splice(index, 1)
+                    } else if (this.time_selecionado == 'B'){
+                        this.time_b.push(this.usuarios[index])
+                        this.usuarios.splice(index, 1)
+                    }
+                },
+                removerJogador: function(index, time){
+                    if(time == 'A'){
+                        this.usuarios.push(this.time_a[index])
+                        this.time_a.splice(index, 1)
+                    } else {
+                        this.usuarios.push(this.time_b[index])
+                        this.time_b.splice(index, 1)
+                    }
+                },
+                selecionaA: function(){
+                    this.time_selecionado = 'A'
+                },
+                selecionaB: function(){
+                    this.time_selecionado = 'B'
+                },
+                submit: function(){
+                    $.post('/saveJogo', {
+                        gols_time_a: this.gols_time_a,
+                        gols_time_b: this.gols_time_b,
+                        time_a: JSON.stringify(this.time_a),
+                        time_b: JSON.stringify(this.time_b),
+                    },
+                    function(returnedData){
+                        console.log(returnedData);
+                        window.location.href = '/';
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
