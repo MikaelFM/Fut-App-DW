@@ -5,6 +5,10 @@ const cobrancaSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    id_usuario: {
+        type: String,
+        required: true,
+    },
     valor: {
         type: Number,
         required: true

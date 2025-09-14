@@ -1,6 +1,7 @@
 import { MercadoPagoConfig, Payment } from 'mercadopago';
 import { randomUUID } from "crypto";
 import { Cobranca } from '../models/PaymentModel.js';
+import { Usuarios } from '../models/UsersModel.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -41,6 +42,7 @@ class PaymentService {
 
         const doc = new Cobranca({
             id_cobranca: cobranca.id,
+            id_usuario: data.id_usuario,
             valor: data.valor,
             dividas_pagas: data.dividas
         });
@@ -59,6 +61,19 @@ class PaymentService {
     }
 
     async aprovePayment(paymentId) {
+        const cobranca = await Cobranca.findOne({ id_cobranca: paymentId });
+        if (!cobranca) return null;
+
+        const usuario = await Usuarios.findById(cobranca.id_usuario);
+        usuario.total_dividas -= cobranca.valor;
+        usuario.dividas = usuario.dividas.filter(
+            divida => !cobranca.dividas_pagas.some(
+                dp => dp.data === divida.data && dp.valor === divida.valor
+            )
+        );
+
+        await usuario.save();
+
         return await Cobranca.deleteOne({ id_cobranca: paymentId });
     }
 }
