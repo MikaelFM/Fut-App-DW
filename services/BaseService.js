@@ -4,7 +4,7 @@ class BaseService {
     }
 
     async save(data) {
-        if(data.hasOwnProperty('id')){
+        if(data.hasOwnProperty('id') && data.id !== ""){
             return await this.update(data.id, data);
         }
         return await this.create(data);

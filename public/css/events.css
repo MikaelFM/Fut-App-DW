@@ -1,0 +1,6 @@
+.players-content .players-list {
+    display: none;
+}
+.players-content.open .players-list {
+    display: flex;
+}

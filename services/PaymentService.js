@@ -21,18 +21,14 @@ class PaymentService {
         });
     }
 
-    async create(data) {
+    async create(user) {
         const cobranca = await payment.create({
             body: {
-                transaction_amount: data.valor,
-                description: 'Testando API',
+                transaction_amount: 0.02, //valor fixo para testes,
+                description: 'App FUT',
                 payment_method_id: "pix",
                 payer: {
-                    email: 'mikaelfernandesmoreira@gmail.com',
-                    // identification: {
-                    //     type: req.identificationType,
-                    //     number: req.number
-                    // }
+                    email: user.email
                 }
             },
             requestOptions: {
@@ -42,9 +38,9 @@ class PaymentService {
 
         const doc = new Cobranca({
             id_cobranca: cobranca.id,
-            id_usuario: data.id_usuario,
-            valor: data.valor,
-            dividas_pagas: data.dividas
+            id_usuario: user._id,
+            valor: user.total_dividas,
+            dividas: user.dividas
         });
 
         await doc.save();
@@ -62,14 +58,18 @@ class PaymentService {
 
     async aprovePayment(paymentId) {
         const cobranca = await Cobranca.findOne({ id_cobranca: paymentId });
-        if (!cobranca) return null;
+
+        if (!cobranca) {
+            throw new Error("Cobranca not found");
+        };
 
         const usuario = await Usuarios.findById(cobranca.id_usuario);
+        const idsDividasPagas = cobranca.dividas.map(c => c.id);
+
         usuario.total_dividas -= cobranca.valor;
+
         usuario.dividas = usuario.dividas.filter(
-            divida => !cobranca.dividas_pagas.some(
-                dp => dp.data === divida.data && dp.valor === divida.valor
-            )
+            divida => !idsDividasPagas.includes(divida.id)
         );
 
         await usuario.save();

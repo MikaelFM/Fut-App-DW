@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutApp - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/events.css">
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+</head>
+<body class="bg-gray-950">
+<%- include('includes/menus', { page: 'events' }) %>
+<div class="py-4 sm:ml-64">
+    <div class="py-5 px-3 md:px-10">
+        <div class="max-w-6xl mx-auto py-6 space-y-6 mt-6">
+            <div class="bg-gray-950 rounded-lg mb-6 space-y-4 hidden">
+                <div>
+                    <input type="text" placeholder="Buscar evento..." class="w-full px-4 py-3 bg-gray-900 rounded-md text-white placeholder-gray-500 text-sm focus:ring-2 focus:ring-indigo-500"/>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <% for (let event of events) { %>
+                <% userConfirmed = event.confirmados.map(c => c.user_id).includes(user_id) %>
+                <% full = event.numero_jogadores - event.confirmados.length === 0 %>
+                    <div class="bg-gray-900 rounded-xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-700">
+                        <div class="p-6">
+                            <div class="flex flex-col lg:flex-row lg:gap-6">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <div class="bg-gradient-to-br from-indigo-500 to-purple-600 p-3 rounded-xl">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-2xl font-semibold text-white"><%= event.titulo %></h3>
+                                        <% if (full) { %>
+                                        <span class="status-badge px-2 py-1 bg-red-500 text-white text-sm rounded-full font-semibold flex items-center gap-1 shadow-lg">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Lotado
+                                        </span>
+                                        <% } %>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3 mt-5">
+                                        <div class="flex items-center gap-2 text-gray-300 bg-gray-800/50 rounded-md py-2 px-2 border border-gray-700/50 transition-colors">
+                                            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            <span><strong>Data:</strong> <%= formatWeekday(event.data) %>, <%= formatDate(event.data) %></span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-gray-300 bg-gray-800/50 rounded-md py-2 px-2 border border-gray-700/50 transition-color">
+                                            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            <span><strong>Horário:</strong> <%= event.hora_inicio %> às <%= event.hora_fim %></span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-gray-300 bg-gray-800/50 rounded-md py-2 px-2 border border-gray-700/50 transition-color">
+                                            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            </svg>
+                                            <span><strong>Local:</strong> <%= event.local %></span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-gray-300 bg-gray-800/50 rounded-md py-2 px-2 border border-gray-700/50 transition-color">
+                                            <svg fill="#7c86ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" height="23" width="20">
+                                                <path d="M296 88C296 74.7 306.7 64 320 64C333.3 64 344 74.7 344 88L344 128L400 128C417.7 128 432 142.3 432 160C432 177.7 417.7 192 400 192L285.1 192C260.2 192 240 212.2 240 237.1C240 259.6 256.5 278.6 278.7 281.8L370.3 294.9C424.1 302.6 464 348.6 464 402.9C464 463.2 415.1 512 354.9 512L344 512L344 552C344 565.3 333.3 576 320 576C306.7 576 296 565.3 296 552L296 512L224 512C206.3 512 192 497.7 192 480C192 462.3 206.3 448 224 448L354.9 448C379.8 448 400 427.8 400 402.9C400 380.4 383.5 361.4 361.3 358.2L269.7 345.1C215.9 337.5 176 291.4 176 237.1C176 176.9 224.9 128 285.1 128L296 128L296 88z"/>
+                                            </svg>
+                                            <span><strong>Valor:</strong> R$ <%= formatMoney(event.valor) %> por jogador</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-4 mb-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-sm text-gray-300 mt-4">Confirmação até: <%= formatDate(event.data_limite_confirmacao) %> às <%= event.hora_limite_confirmacao %></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="players-content lg:w-80">
+                                    <div class="bg-gray-900 rounded-lg lg:p-4">
+                                        <div class="flex items-center justify-between mb-4 hidden lg:flex">
+                                            <h4 class="font-semibold text-white">Jogadores</h4>
+                                            <div class="flex items-center gap-2">
+                                                <div class="bg-indigo-500/20 px-3 py-1 rounded-full">
+                                                    <span class="text-indigo-300 font-bold text-md"><%= event.confirmados.length %>/<%= event.numero_jogadores %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4 hidden lg:block">
+                                            <div class="flex-wrap gap-2 players-list text-xs hidden">
+                                                <% for (let user of event.confirmados) { %>
+                                                    <span class="px-2 py-1 bg-indigo-500 text-white rounded-full"><%= user.user_name %></span>
+                                                <% } %>
+                                            </div>
+                                            <span class="text-gray-400 font-medium text-sm hover:underline cursor-pointer" onclick="showPlayers(event)">Ver jogadores confirmados</span>
+                                        </div>
+
+                                        <div class="flex justify-between text-sm mb-2 hidden lg:block">
+                                            <span class="text-gray-400">Ocupação</span>
+                                            <span class="text-white font-medium"><%= Math.round(event.confirmados.length/event.numero_jogadores * 100) %>%</span>
+                                        </div>
+
+                                        <div class="w-full bg-gray-800 rounded-full h-2 mb-4 hidden lg:block">
+                                            <div class="bg-indigo-500 h-2 rounded-full" style="width: <%= event.confirmados.length/event.numero_jogadores * 100 %>%"></div>
+                                        </div>
+
+
+                                        <% if (!full) { %>
+                                        <button class="w-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-lg hover:bg-indigo-700 font-semibold text-lg transition-colors duration-200">
+                                            <a href="/event/confirm/<%= event.id %>" class="w-full h-full px-4 py-3 flex items-center justify-center gap-2">
+                                                <% if (userConfirmed) { %>
+                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    Confirmado
+                                                <% } else { %>
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                                    </svg>
+                                                    Confirmar
+                                                <% } %>
+                                            </a>
+                                        </button>
+                                        <% } %>
+                                        <div class="mt-4 text-center">
+                                            <% if (userConfirmed) { %>
+                                                <div class="flex items-center justify-center gap-2 text-green-400">
+                                                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                                    <span class="text-sm font-medium">Você está confirmado!</span>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+            <%- include('includes/pagination', { pagination: pagination, routeName: 'events' }) %>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/js/tailwindConfig.js"></script>
+<script src="/js/events.js"></script>
+</html>

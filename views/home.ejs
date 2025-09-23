@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutApp - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br bg-gray-950 p-4">
+<%- include('includes/menus', { page: 'home' }) %>
+<div class="py-4 sm:ml-64 mt-6">
+    <div class="py-5 px-2 md:px-10">
+        <div class="max-w-7xl mx-auto">
+
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 mb-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold mb-1">Olá, <%= user.nome %>!</h1>
+                        <p class="text-blue-100">Bem-vindo de volta ao FutApp</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6" onclick="window.location.href='/stats'">
+                <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 hover:border-indigo-500 transition-colors">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Performance</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex space-x-4 py-5 justify-center">
+                            <div class="flex flex-col items-center">
+                                <p class="text-2xl text-blue-400 font-bold"><%= user.jogos %></p>
+                                <p class="text-gray-300 text-sm">Jogos</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <p class="text-2xl text-green-400 font-bold"><%= user.vitorias %></p>
+                                <p class="text-gray-300 text-sm">Vitórias</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <p class="text-2xl text-yellow-400 font-bold"><%= user.empates %></p>
+                                <p class="text-gray-300 text-sm">Empates</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <p class="text-2xl text-red-400 font-bold"><%= user.derrotas %></p>
+                                <p class="text-gray-300 text-sm">Derrotas</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400 text-sm">Aproveitamento:</span>
+                            <span class="text-white font-medium"><%= ((user.vitorias * 3 + user.empates) * 100 / ((user.jogos > 0 ? user.jogos : 1/3) * 3)).toFixed(2) %>%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-indigo-400 h-2 rounded-full" style="width: <%= ((user.vitorias * 3 + user.empates) * 100 / (user.jogos * 3)).toFixed(2) %>%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 rounded-xl p-6 border border-gray-700 hover:border-indigo-500 transition-colors" onclick="window.location.href='/debts'">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-white">Financeiro</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400 text-sm">Jogos Pendentes:</span>
+                            <span class="text-white font-medium"><%= user.dividas.length %></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400 text-sm">Total a Pagar:</span>
+                            <span class="text-white font-medium">R$<%= formatMoney(user.total_dividas) %></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 rounded-xl p-6 border border-gray-700">
+                    <h3 class="text-lg font-semibold text-white mb-4">Ações Rápidas</h3>
+                    <div class="space-y-2">
+                        <a href="/form" class="block w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-medium transition-all">
+                            Criar Novo Jogo
+                        </a>
+                        <a href="/stats" class="block w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors">
+                            Ver Estatísticas
+                        </a>
+                        <a href="/debts" class="block w-full px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors">
+                            Pagamentos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 bg-gray-900 rounded-xl p-6 border border-gray-700 hover:border-indigo-500 transition-colors" onclick="window.location.href='/events'">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold text-white">Próximos Jogos</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <% for (event of events) { %>
+                <div class="bg-gray-950 rounded-lg p-4 border border-gray-700">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-2 py-1 bg-yellow-900 text-yellow-300 text-xs rounded-full"><%= formatDate(event.data) %></span>
+                        <span class="text-gray-400 text-xs"><%= event.hora_inicio %></span>
+                    </div>
+                    <h4 class="text-white font-medium mb-1"><%= event.titulo %></h4>
+                    <p class="text-gray-400 text-sm"><%= event.local %></p>
+                    <div class="mt-3 flex items-center justify-between">
+                        <span class="text-green-400 text-sm"><%= event.confirmados.length %>/<%= event.numero_jogadores %> jogadores</span>
+                        <span class="text-blue-400 text-sm">R$ <%= formatMoney(event.valor) %></span>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/tailwindConfig.js"></script>
+</body>
+</html>

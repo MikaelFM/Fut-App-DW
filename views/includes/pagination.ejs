@@ -1,0 +1,99 @@
+<% if (pagination.total > 0) { %>
+    <% if (typeof pagination !== 'undefined' && pagination.totalPages > 1) { %>
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+        <div class="flex items-center gap-2">
+            <% if (pagination.currentPage > 1) { %>
+                <a href="/<%= routeName %>?page=1" class="px-3 py-3 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+                    </svg>
+                    <span class="hidden sm:inline"></span>
+                </a>
+            <% } %>
+
+            <% if (pagination.currentPage > 1) { %>
+                <a href="/<%= routeName %>?page=<%= pagination.currentPage - 1 %>" class="px-3 py-3 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    <span class="hidden sm:inline"></span>
+                </a>
+            <% } else { %>
+                <button disabled class="px-3 py-3 bg-gray-900 text-gray-600 rounded-lg cursor-not-allowed flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    <span class="hidden sm:inline"></span>
+                </button>
+            <% } %>
+
+            <div class="flex items-center gap-1">
+                <%
+                    let startPage = Math.max(1, pagination.currentPage - 2);
+                    let endPage = Math.min(pagination.totalPages, pagination.currentPage + 2);
+
+                    // Ajustar para sempre mostrar 5 páginas quando possível
+                    if (endPage - startPage < 4) {
+                        if (startPage === 1) {
+                            endPage = Math.min(pagination.totalPages, startPage + 4);
+                        } else {
+                            startPage = Math.max(1, endPage - 4);
+                        }
+                    }
+                %>
+
+                <% if (startPage > 1) { %>
+                    <span class="px-3 py-3 text-gray-500">...</span>
+                <% } %>
+
+                <% for (let i = startPage; i <= endPage; i++) { %>
+                    <% if (i === pagination.currentPage) { %>
+                        <span class="px-3 py-2 bg-indigo-500 text-white rounded-lg font-medium"><%= i %></span>
+                    <% } else { %>
+                        <a href="/<%= routeName %>?page=<%= i %>" class="px-3 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200"><%= i %></a>
+                    <% } %>
+                <% } %>
+
+                <% if (endPage < pagination.totalPages) { %>
+                    <span class="px-3 py-3 text-gray-500">...</span>
+                <% } %>
+            </div>
+
+            <% if (pagination.currentPage < pagination.totalPages) { %>
+                <a href="/<%= routeName %>?page=<%= pagination.currentPage + 1 %>" class="px-3 py-3 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200 flex items-center gap-1">
+                    <span class="hidden sm:inline"></span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            <% } else { %>
+                <button disabled class="px-3 py-3 bg-gray-900 text-gray-600 rounded-lg cursor-not-allowed flex items-center gap-1">
+                    <span class="hidden sm:inline"></span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            <% } %>
+
+            <% if (pagination.currentPage < pagination.totalPages) { %>
+                <a href="/<%= routeName %>?page=<%= pagination.totalPages %>" class="px-3 py-3 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200 flex items-center gap-1">
+                    <span class="hidden sm:inline"></span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            <% } %>
+        </div>
+    </div>
+    <% } %>
+<% } else { %>
+    <div class="mt-16 text-center">
+        <div class="bg-gray-900 rounded-xl p-12 border border-gray-700">
+            <svg class="mx-auto w-16 h-16 text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <h3 class="text-xl font-semibold text-white mb-2">Nenhum evento disponível</h3>
+            <p class="text-gray-400">Não há eventos abertos para confirmação no momento.</p>
+        </div>
+    </div>
+<% } %>

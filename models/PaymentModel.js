@@ -13,7 +13,7 @@ const cobrancaSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    dividas_pagas: {
+    dividas: {
         type: Array,
         required: true
     },

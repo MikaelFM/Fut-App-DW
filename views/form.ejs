@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutApp - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<%- include('includes/menus', { page: 'myevents' }) %>
+<body class="min-h-screen bg-gray-950 p-4">
+    <div class="py-4 sm:ml-64">
+        <div class="py-5 px-2 md:px-10">
+            <div class="max-w-4xl mx-auto">
+                <div class="rounded-xl shadow-xl py-8 bg-gray-950">
+                    <div class="text-center mb-8">
+                        <h1 class="text-3xl font-bold text-white mb-2">Criar Evento de Futsal</h1>
+                        <p class="text-gray-400">Configure sua partida e organize os times</p>
+                    </div>
+                    <form method="post" action="/event">
+                        <input type="hidden" name="id" value="<%= fields.id ?? '' %>">
+                        <input type="hidden" name="id_usuario_criador" value="<%= fields.id_usuario_criador ?? '' %>">
+                        <div class="space-y-6">
+
+                        <div class="bg-gray-950 rounded-lg p-6 border border-gray-700">
+                            <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
+                                Informações da Partida
+                            </h2>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                                        Título da Partida*
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="w-full px-3 py-2 bg-gray-900 rounded-md text-white placeholder-gray-500 focus:ring-2 focus:ring-green-500"
+                                        placeholder="Ex: Racha da Quinta"
+                                        name="titulo"
+                                        value="<%= fields.titulo ?? '' %>"
+                                    />
+                                    <% if (typeof errors !== 'undefined' && errors.titulo) { %>
+                                        <p class="text-sm text-red-500 mt-1"><%= errors.titulo %></p>
+                                    <% } %>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Data*</label>
+                                    <input
+                                        type="date"
+                                        class="w-full px-3 py-2 bg-gray-900 rounded-md text-white focus:ring-2 focus:ring-green-500"
+                                        name="data"
+                                        value="<%= formatDate(fields.data, "US") ?? '' %>"
+                                    />
+                                    <% if (typeof errors !== 'undefined' && errors.data) { %>
+                                        <p class="text-sm text-red-500 mt-1"><%= errors.data %></p>
+                                    <% } %>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Hora de Início*</label>
+                                    <input
+                                        type="time"
+                                        class="w-full px-3 py-2 bg-gray-900 rounded-md text-white focus:ring-2 focus:ring-green-500"
+                                        name="hora_inicio"
+                                        value="<%= fields.hora_inicio ?? '' %>"
+                                    />
+                                    <% if (typeof errors !== 'undefined' && errors.hora_inicio) { %>
+                                        <p class="text-sm text-red-500 mt-1"><%= errors.hora_inicio %></p>
+                                    <% } %>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Hora de Término*</label>
+                                    <input
+                                        type="time"
+                                        class="w-full px-3 py-2 bg-gray-900 rounded-md text-white focus:ring-2 focus:ring-green-500"
+                                        name="hora_fim"
+                                        value="<%= fields.hora_fim ?? '' %>"
+                                    />
+                                    <% if (typeof errors !== 'undefined' && errors.hora_fim) { %>
+                                        <p class="text-sm text-red-500 mt-1"><%= errors.hora_fim %></p>
+                                    <% } %>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Local*</label>
+                                    <input
+                                        type="text"
+                                        class="w-full px-3 py-2 bg-gray-900 rounded-md text-white placeholder-gray-500 focus:ring-2 focus:ring-green-500"
+                                        placeholder="Ex: Quadra do Clube Central"
+                                        name="local"
+                                        value="<%= fields.local ?? '' %>"
+                                    />
+                                    <% if (typeof errors !== 'undefined' && errors.local) { %>
+                                        <p class="text-sm text-red-500 mt-1"><%= errors.local %></p>
+                                    <% } %>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Número de Jogadores*</label>
+                                    <select
+                                        class="w-full px-3 py-2 bg-gray-900 rounded-md text-white focus:ring-2 focus:ring-green-500"
+                                        name="numero_jogadores"
+                                    >
+                                        <option value="8"  <%= fields.numero_jogadores == 8  ? 'selected' : '' %>>8 jogadores (4x4)</option>
+                                        <option value="10" <%= fields.numero_jogadores == 10 ? 'selected' : '' %>>10 jogadores (5x5)</option>
+                                        <option value="12" <%= fields.numero_jogadores == 12 ? 'selected' : '' %>>12 jogadores (6x6)</option>
+                                        <option value="14" <%= fields.numero_jogadores == 14 ? 'selected' : '' %>>14 jogadores (7x7)</option>
+                                        <option value="16" <%= fields.numero_jogadores == 16 ? 'selected' : '' %>>16 jogadores (8x8)</option>
+                                        <option value="18" <%= fields.numero_jogadores == 18 ? 'selected' : '' %>>18 jogadores (9x9)</option>
+                                        <option value="20" <%= fields.numero_jogadores == 20 ? 'selected' : '' %>>20 jogadores (10x10)</option>
+                                    </select>
+                                    <% if (typeof errors !== 'undefined' && errors.numero_jogadores) { %>
+                                        <p class="text-sm text-red-500 mt-1"><%= errors.numero_jogadores %></p>
+                                    <% } %>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Valor por Jogador*</label>
+                                    <input
+                                        type="text"
+                                        class="w-full px-3 py-2 bg-gray-900 rounded-md text-white placeholder-gray-500 focus:ring-2 focus:ring-green-500"
+                                        placeholder="25.00"
+                                        name="valor"
+                                        value="<%= fields.valor ?? '' %>"
+                                    />
+                                    <% if (typeof errors !== 'undefined' && errors.valor) { %>
+                                        <p class="text-sm text-red-500 mt-1"><%= errors.valor %></p>
+                                    <% } %>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Data Limite para Confirmação*</label>
+                                    <input
+                                        type="date"
+                                        class="w-full px-3 py-2 bg-gray-900 rounded-md text-white focus:ring-2 focus:ring-green-500"
+                                        name="data_limite_confirmacao"
+                                        value="<%= formatDate(fields.data_limite_confirmacao, "US") ?? '' %>"
+                                    />
+                                    <% if (typeof errors !== 'undefined' && errors.data_limite_confirmacao) { %>
+                                        <p class="text-sm text-red-500 mt-1"><%= errors.data_limite_confirmacao %></p>
+                                    <% } %>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Hora Limite para Confirmação*</label>
+                                    <input
+                                        type="time"
+                                        class="w-full px-3 py-2 bg-gray-900 rounded-md text-white focus:ring-2 focus:ring-green-500"
+                                        name="hora_limite_confirmacao"
+                                        value="<%= fields.hora_limite_confirmacao ?? '' %>"
+                                    />
+                                    <% if (typeof errors !== 'undefined' && errors.hora_limite_confirmacao) { %>
+                                        <p class="text-sm text-red-500 mt-1"><%= errors.hora_limite_confirmacao %></p>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Regras da Partida</label>
+                                <textarea
+                                    class="w-full px-3 py-2 bg-gray-900 rounded-md text-white placeholder-gray-500 focus:ring-2 focus:ring-green-500"
+                                    rows="3"
+                                    name="regras"
+                                ><%= fields.regras ?? '' %></textarea>
+                                <% if (typeof errors !== 'undefined' && errors.regras) { %>
+                                    <p class="text-sm text-red-500 mt-1"><%= errors.regras %></p>
+                                <% } %>
+                            </div>
+
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Observações</label>
+                                <textarea
+                                    class="w-full px-3 py-2 bg-gray-900 rounded-md text-white placeholder-gray-500 focus:ring-2 focus:ring-green-500"
+                                    rows="2"
+                                    name="observacoes"
+                                ><%= fields.observacoes ?? '' %></textarea>
+                                <% if (typeof errors !== 'undefined' && errors.observacoes) { %>
+                                    <p class="text-sm text-red-500 mt-1"><%= errors.observacoes %></p>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <% if (fields.confirmados.length > 0){ %>
+                        <div class="bg-gray-950 rounded-lg p-6 border border-gray-700">
+                            <h2 class="text-xl font-semibold text-white mb-4 flex items-center">Jogadores Disponíveis</h2>
+
+                            <% fields.confirmados.forEach((user, index) => { %>
+                                <input type="hidden" value="<%= user.user_id %>" name="confirmados[<%= index %>][user_id]">
+                                <input type="hidden" value="<%= user.user_name %>" name="confirmados[<%= index %>][user_name]">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                                    <div class="flex items-center bg-gray-900 p-3 rounded-lg shadow-sm">
+                                        <span class="flex-1 text-sm font-medium text-white"><%= user.user_name %></span>
+                                        <select
+                                                class="px-2 py-1 bg-gray-800 rounded text-sm text-white time-select"
+                                                name="confirmados[<%= index %>][team]"
+                                                data-user-name="<%= user.user_name %>"
+                                        >
+                                            <option value=""  <%= String(user.team || '') === '' ? 'selected' : '' %>>Sem time</option>
+                                            <option value="1" <%= String(user.team) === '1' ? 'selected' : '' %>>Time 1</option>
+                                            <option value="2" <%= String(user.team) === '2' ? 'selected' : '' %>>Time 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+
+                        <div class="bg-gray-950 rounded-lg p-6 border border-gray-700">
+                                    <h2 class="text-xl font-semibold text-white mb-4 flex items-center">Formação dos Times</h2>
+
+                                    <div class="flex gap-4 mb-4">
+                                        <button type="button" id="sortearTimes" class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-700">Sortear Times</button>
+                                        <button type="button" id="limparTimes" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">Limpar Times</button>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h3 class="font-semibold text-blue-400 mb-3">Time 1</h3>
+                                            <div id="time1" class="space-y-2 text-sm text-white"></div>
+                                        </div>
+                                        <div class="bg-gray-900 rounded-lg p-4">
+                                            <h3 class="font-semibold text-red-400 mb-3">Time 2</h3>
+                                            <div id="time2" class="space-y-2 text-sm text-white"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        <% } %>
+
+                        <div class="flex justify-end">
+                            <button class="px-8 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 font-semibold text-lg shadow-lg">
+                                Salvar
+                            </button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/js/tailwindConfig.js"></script>
+<script src="/js/form.js"></script>
+</html>

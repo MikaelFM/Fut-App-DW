@@ -1,4 +1,5 @@
 import PaymentService from "../services/PaymentService.js";
+import UserService from "../services/UsersService.js";
 
 class paymentController {
     getAll = async (req, res) => {
@@ -21,7 +22,7 @@ class paymentController {
 
     create = async (req, res) => {
         try {
-            const result = await PaymentService.create(req.body);
+            const result = await PaymentService.create(req.session.user);
             res.status(200).json({ result: result });
         } catch (error) {
             res.status(400).send(error);
@@ -41,8 +42,12 @@ class paymentController {
         try {
             const json = req.body;
 
-            if(json?.action === 'payment.updated'){
+            if (json?.action === 'payment.updated'){
                 const payment = await PaymentService.getById(json.data.id);
+
+                if(!payment){
+                    throw new Error("Pagamento not found");
+                }
 
                 if(payment.status === 'approved'){
                     await PaymentService.aprovePayment(json.data.id);
@@ -52,7 +57,7 @@ class paymentController {
 
             return res.status(401).send({ msg: 'pagamento não processado' });
         } catch (error){
-            res.status(400).send(error);
+            res.status(400).send({ error });
         }
     }
 }

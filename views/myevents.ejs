@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutApp - Meus Jogos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br bg-gray-950 p-4">
+    <%- include('includes/menus', { page: 'myevents' }) %>
+    <div class="py-4 sm:ml-64 ">
+        <div class="py-5 px-2 md:px-10">
+            <div class="max-w-6xl mx-auto">
+                <div class="rounded-xl shadow-xl py-8 bg-gray-950">
+                    <div class="px-6 mb-6">
+                        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <div class="flex flex-wrap gap-2">
+                                <% if (events.length > 0) { %>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors filter-btn active" data-status="all">
+                                    Todos
+                                </button>
+                                <button class="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors filter-btn" data-status="aberto">
+                                    Em aberto
+                                </button>
+                                <button class="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors filter-btn" data-status="finalizado">
+                                    Finalizados
+                                </button>
+                                <% } %>
+                            </div>
+                            <a href="/form" class="px-6 py-2 bg-gradient-to-r bg-indigo-500 hover:bg-indigo-700 text-white rounded-lg font-semibold transition-all shadow-lg">
+                                + Criar Novo Jogo
+                            </a>
+                        </div>
+                    </div>
+
+                    <% if (events.length > 0) { %>
+                    <div class="px-6 space-y-4">
+                        <% for (let event of events) { %>
+                            <div id="<%= event.id %>" class="bg-gray-950 rounded-lg border border-gray-700 overflow-hidden game-card" data-status="<%= event.finalizado ? 'finalizado' : 'aberto' %>">
+                                <div class="p-6">
+                                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                                        <div class="flex-1">
+                                            <h3 class="text-xl font-semibold text-white mb-2"><%= event.titulo %></h3>
+                                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                                <div>
+                                                    <span class="text-gray-400">Data:</span>
+                                                    <p class="text-white font-medium"><%= formatDate(event.data) %></p>
+                                                </div>
+                                                <div>
+                                                    <span class="text-gray-400">Horário:</span>
+                                                    <p class="text-white font-medium"><%= event.hora_inicio %> - <%= event.hora_fim %></p>
+                                                </div>
+                                                <div>
+                                                    <span class="text-gray-400">Local:</span>
+                                                    <p class="text-white font-medium"><%= event.local %></p>
+                                                </div>
+                                                <div>
+                                                    <span class="text-gray-400">Jogadores:</span>
+                                                    <p class="text-white font-medium"><%= event.confirmados.length %>/<%= event.numero_jogadores %> confirmados</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col sm:flex-row gap-2">
+                                            <% if (!event.finalizado) {%>
+                                            <a href="event/edit/<%= event.id %>" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2">
+                                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                                </svg>
+                                                Editar
+                                            </a>
+                                            <a href="event/finalize/<%= event.id %>" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
+                                                Finalizar
+                                            </a>
+                                            <a href="event/delete/<%= event.id %>" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
+                                                Excluir
+                                            </a>
+                                            <% } %>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-4 border-t border-gray-700">
+                                        <div class="flex items-center justify-between">
+                                            <div class="text-sm text-gray-400">
+                                                Valor: <span class="text-green-400 font-medium">R$ <%= formatMoney(event.valor) %></span> por jogador
+                                            </div>
+                                            <div class="flex items-center gap-4 text-sm">
+                                                <span class="text-gray-400">Confirmações até: <span class="text-white"><%= formatDate(event.data_limite_confirmacao) %> <%= event.hora_limite_confirmacao %></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <% } else {  %>
+                <div class="text-center px-6">
+                    <div class="bg-gray-950 rounded-xl p-12 border border-gray-700">
+                        <svg class="mx-auto w-16 h-16 text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-white mb-2">Nenhum evento disponível</h3>
+                        <p class="text-gray-400">Você ainda não criou nenhum evento.</p>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+<script src="/js/tailwindConfig.js"></script>
+<script src="/js/myEvents.js"></script>
+</html>

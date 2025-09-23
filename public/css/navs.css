@@ -1,0 +1,15 @@
+li.active a {
+    background-color: #1e2a46   ;
+}
+
+li.active a svg {
+    color: white;
+}
+
+a.active {
+    color: #818cf8;
+}
+
+aside.open {
+    transform: translateX(0);
+}
