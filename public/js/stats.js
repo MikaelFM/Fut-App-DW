@@ -1,10 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const toggleBtn = document.querySelector(".cursor-pointer");
-    const details = document.getElementById("details-game1");
-    const arrow = document.getElementById("arrow-game1");
+    const toggleBtns = document.querySelectorAll(".toggle-btn");
 
-    toggleBtn.addEventListener("click", () => {
-        details.classList.toggle("hidden");
-        arrow.classList.toggle("rotate-180");
+    toggleBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            const details = document.querySelector(`.details[data-id="${id}"]`);
+            const arrow = document.querySelector(`.arrow[data-id="${id}"]`);
+
+            details.classList.toggle("hidden");
+            arrow.classList.toggle("rotate-180");
+        });
     });
 });
